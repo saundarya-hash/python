@@ -1,0 +1,39 @@
+import requests
+import csv
+
+def download_data(url):
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()
+
+def convert_to_csv(data, output_file):
+    keys = data[0].keys()
+    with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=keys)
+        writer.writeheader()
+        
+        for row in data:
+            filtered_row = {key: row[key] for key in keys if key in row}
+            writer.writerow(filtered_row)
+
+def main():
+    url = "https://data.nasa.gov/resource/y77d-th95.json"
+    output_file = "data.csv"
+    
+    try:
+        # Download data from the URL
+        data = download_data(url)
+
+        # Convert data to CSV
+        convert_to_csv(data, output_file)
+
+        print("Data downloaded and converted to CSV successfully.")
+        print("Output file:", output_file)
+    
+    except requests.exceptions.RequestException as e:
+        print("Error occurred while downloading the data:", e)
+    except (KeyError, IndexError) as e:
+        print("Error occurred while processing the data:", e)
+
+if __name__ == "__main__":
+    main()
