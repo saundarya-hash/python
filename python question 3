@@ -1,0 +1,21 @@
+# Import the required modules
+import requests
+import json
+import pandas as pd
+
+
+response = requests.get('https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json')
+
+# If link works, parse the response and save it as an Excel file
+if response.status_code == 200:
+    data = response.json()
+    # Extract the list of pokemons from the JSON data
+    pokemons = data['pokemon']
+    # Convert the list of pokemons into a pandas DataFrame
+    df = pd.DataFrame(pokemons)
+    # Save the DataFrame as an Excel file
+    df.to_excel('pokemons.xlsx', index=False)
+    print('Data saved as pokemons.xlsx')
+else:
+    # Print an error message
+    print('Error fetching data')
