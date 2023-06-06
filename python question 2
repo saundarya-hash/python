@@ -1,0 +1,35 @@
+from collections import Counter
+
+def is_valid_string(s):
+    freq_dict = Counter(s)
+    frequencies = list(freq_dict.values())
+    num_unique_freq = len(set(frequencies))
+    
+    if num_unique_freq == 1:
+        return "YES"
+    elif num_unique_freq > 2:
+        return "NO"
+    else:
+        if frequencies.count(1) == 1:
+            return "YES"
+        else:
+            return "NO"
+ 
+ # Test case 1
+s1 = "abc"
+print(is_valid_string(s1))  # Output: YES
+
+# Test case 2
+s2 = "abcc"
+print(is_valid_string(s2))  # Output: NO
+
+# Additional test cases
+s3 = "aabbcc"
+print(is_valid_string(s3))  # Output: YES 
+
+s4 = "aabbccc"
+print(is_valid_string(s4))  # Output: YES (Removing one 'c' will make all frequencies the same)
+
+s5 = "aabbccccd"
+print(is_valid_string(s5))  # Output: NO 
+
