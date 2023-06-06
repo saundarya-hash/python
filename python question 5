@@ -1,0 +1,44 @@
+import requests
+
+def download_data(url):
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()
+
+def extract_data(data):
+    show_name = data['name']
+    show_language = data['language']
+    
+    episodes = data['_embedded']['episodes']
+    episode_titles = [episode['name'] for episode in episodes]
+    episode_airdates = [episode['airdate'] for episode in episodes]
+    
+    return show_name, show_language, episode_titles, episode_airdates
+
+def main():
+    url = "http://api.tvmaze.com/singlesearch/shows?q=westworld&embed=episodes"
+    
+    try:
+        # Download data from the API
+        data = download_data(url)
+
+        # Extract required information
+        show_name, show_language, episode_titles, episode_airdates = extract_data(data)
+
+        # Print the extracted information
+        print("Show Name:", show_name)
+        print("Show Language:", show_language)
+        print("Episode Titles:")
+        for title in episode_titles:
+            print("- ", title)
+        print("Episode Airdates:")
+        for airdate in episode_airdates:
+            print("- ", airdate)
+
+    except requests.exceptions.RequestException as e:
+        print("Error occurred while downloading the data:", e)
+    except KeyError as e:
+        print("Error occurred while processing the data:", e)
+
+if __name__ == "__main__":
+    main()
