@@ -17,3 +17,33 @@ def find_highest_frequency_length(string):
 string = "write write write all the number from from from 1 to 100"
 result = find_highest_frequency_length(string)
 print(result)
+def find_highest_frequency_length(string):
+    words = string.split()
+
+    word_counts = {}
+    for word in words:
+        word_counts[word] = word_counts.get(word, 0) + 1 
+
+   
+    max_frequency = max(word_counts.values())
+
+
+    highest_frequency_word = [word for word, count in word_counts.items() if count == max_frequency][0]
+    highest_frequency_length = len(highest_frequency_word)
+
+    return highest_frequency_length
+
+string = "write write write all the number from from from 1 to 100"
+result = find_highest_frequency_length(string)
+print(result)
+
+string = "apple banana apple apple banana apple"
+result = find_highest_frequency_length(string)
+print(result)
+
+
+string = "the quick brown fox jumps over the lazy dog"
+result = find_highest_frequency_length(string)
+print(result)
+
+
