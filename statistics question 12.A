@@ -1,0 +1,28 @@
+import scipy.stats as stats
+
+
+mean_a = 2.5
+std_dev_a = 0.8
+n_a = 30
+
+mean_b = 2.2
+std_dev_b = 0.6
+n_b = 30
+
+
+t, p_value = stats.ttest_ind_from_stats(mean_a, std_dev_a, n_a, mean_b, std_dev_b, n_b)
+
+
+alpha = 0.05
+
+
+critical_t_value = stats.t.ppf(1 - alpha/2, n_a + n_b - 2)
+
+
+print('t-value:', t)
+print('p-value:', p_value)
+
+if abs(t) > critical_t_value:
+    print('Reject the null hypothesis. There is a significant difference in the mean improvement scores between Group A and Group B.')
+else:
+    print('Fail to reject the null hypothesis. There is no significant difference in the mean improvement scores between Group A and Group B.')
